@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Body
+from typing import Annotated
+from fastapi import FastAPI, Body, Path
 from pydantic import BaseModel, EmailStr
 import uvicorn # type: ignore
 
