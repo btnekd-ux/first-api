@@ -1,5 +1,7 @@
 from typing import Annotated
+
 from fastapi import FastAPI, Body, Path
+from fastapi import Path
 from pydantic import BaseModel, EmailStr
 import uvicorn # type: ignore
 
@@ -42,19 +44,21 @@ def add(a: int, b: int):
     
 
     
-@app.get("/item/")
-def list_items():
-    return [
-        "item1",
-        "item2",
-    ]
-    
-    
+#@app.get("/item/")
+#def list_items():
+#    return [
+#        "item1",
+#        "item2",
+#    ]
+            
+@app.get("/items/{item_id}/")
+def get_item_by_id(item_id: int = Path(..., ge=0, le=1_000_000)):
+    return {"id": item_id}
+
+
 @app.get("/item/{item_id}/")    
-def get_item_by_id(item_id: int):
-    return{
-        "id":item_id,
-    }
+def get_item_by_id(item_id: Annotated[int, Path(ge=0, le=1_000_000)]):
+    return {"id": item_id}
 
 #Automatically reload the server on code changes
 if __name__ == "__main__":
